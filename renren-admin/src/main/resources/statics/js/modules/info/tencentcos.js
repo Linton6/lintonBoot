@@ -118,7 +118,13 @@ var vm = new Vue({
                 vm.tencentCos = r.tencentCos;
             });
 		},
-		reload: function (event) {
+        change: function () {
+		    $.get(baseURL + "info/tencentcos/getVerifyCodeImg")
+    var verifyCode = document.getElementById("verifyCodeImg");
+    verifyCode.src = "info/tencentcos/getVerifyCodeImg?time=" + Math.random(1000);
+    },
+
+reload: function (event) {
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
 			$("#jqGrid").jqGrid('setGridParam',{ 

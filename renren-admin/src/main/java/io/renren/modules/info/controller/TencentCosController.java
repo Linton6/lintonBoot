@@ -1,22 +1,24 @@
 package io.renren.modules.info.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.modules.info.service.VerifyCodeUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.renren.modules.info.entity.TencentCosEntity;
 import io.renren.modules.info.service.TencentCosService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -31,6 +33,8 @@ import io.renren.common.utils.R;
 public class TencentCosController {
     @Autowired
     private TencentCosService tencentCosService;
+    @Autowired
+    private VerifyCodeUtil verifyCodeUtil;
 
     /**
      * 列表
@@ -87,6 +91,21 @@ public class TencentCosController {
         tencentCosService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @RequestMapping("/getVerifyCodeImg")
+    @ResponseBody
+    public void getVerifyCodeImg(HttpServletResponse response, HttpSession session) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        String code = VerifyCodeUtil.drawImage(output);
+        //将验证码文本直接存放到session中
+        session.setAttribute("verifyCode", code);
+        try {
+            ServletOutputStream out = response.getOutputStream();
+            output.writeTo(out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

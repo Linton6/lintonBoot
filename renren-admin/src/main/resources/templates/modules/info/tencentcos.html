@@ -54,6 +54,14 @@
             </div>
         </form>
     </div>
+
+<div style="margin-top: 50px;">
+    <span>验证码：</span><input type="text" name="verifyCode" id="verifyCode" style="width: 75px;height: 25px;"/>
+    <img id="verifyCodeImg" alt="点击更换" src="/img"
+         title="点击更换" @click="change">
+</div>
+
+
 </div>
 
 <script src="${request.contextPath}/statics/js/modules/info/tencentcos.js?_${.now?long}"></script>
