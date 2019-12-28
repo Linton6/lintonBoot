@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.info.dao.RoomInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.info.entity.RoomInfoEntity" id="roomInfoMap">
+        <result property="id" column="id"/>
+        <result property="roomId" column="room_id"/>
+        <result property="description" column="description"/>
+        <result property="owner" column="owner"/>
+        <result property="tag" column="tag"/>
+        <result property="building" column="building"/>
+        <result property="floor" column="floor"/>
+        <result property="room" column="room"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="lastModifiedBy" column="last_modified_by"/>
+    </resultMap>
+
+
+    <select id="list" parameterType="io.renren.modules.info.entity.RoomInfoEntity"
+            resultType="io.renren.modules.info.entity.RoomInfoEntity">
+        SELECT r.* ,m.username  FROM `room_info` as r
+        LEFT JOIN member as m on r.`owner` = m.id
+
+        WHERE  ( r.room_id like CONCAT('%','${queryKey}','%') OR r.description  like CONCAT('%','${queryKey}','%')
+         OR m.username  like CONCAT('%','${queryKey}','%'))
+        ORDER BY r.created_at DESC
+    </select>
+</mapper>

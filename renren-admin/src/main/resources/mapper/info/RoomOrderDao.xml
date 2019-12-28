@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.info.dao.RoomOrderDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.info.entity.RoomOrderEntity" id="roomOrderMap">
+        <result property="id" column="id"/>
+        <result property="roomId" column="room_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="theme" column="theme"/>
+        <result property="status" column="status"/>
+        <result property="auditorId" column="auditor_id"/>
+        <result property="auditorName" column="auditor_name"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="lastModifiedBy" column="last_modified_by"/>
+    </resultMap>
+
+    <select id="listUnpass" resultType="io.renren.modules.info.entity.RoomOrderEntity">
+        SELECT * FROM room_order
+        WHERE `status` IN(0,2,3) and ( room_id like CONCAT('%','${queryKey}','%') OR tag like CONCAT('%','${queryKey}','%')
+         OR username  like CONCAT('%','${queryKey}','%'))
+        order by start_time DESC
+    </select>
+
+    <select id="listPass" resultType="io.renren.modules.info.entity.RoomOrderEntity">
+        SELECT * FROM room_order
+        WHERE `status` = 1 and ( room_id like CONCAT('%','${queryKey}','%') OR tag like CONCAT('%','${queryKey}','%')
+         OR username  like CONCAT('%','${queryKey}','%'))
+        order by start_time DESC
+
+    </select>
+
+    <select id="listDorm" resultType="io.renren.modules.info.entity.RoomOrderEntity">
+         SELECT * FROM room_order
+         WHERE tag = 'dorm' and ( room_id like CONCAT('%','${queryKey}','%')
+         OR username  like CONCAT('%','${queryKey}','%'))
+         order by start_time DESC
+
+     </select>
+</mapper>

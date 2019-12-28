@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+		<#include "/header.html">
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("info:doorhelporder:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("info:doorhelporder:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("info:doorhelporder:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">帮助者姓名</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.helper" placeholder="帮助者姓名"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">帮助理由</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.reason" placeholder="帮助理由"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">联系方式</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.contact" placeholder="联系方式"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">帮助口令</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.helpToken" placeholder="帮助口令"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">审核员</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.auditorId" placeholder="审核员"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">0：未审核  1：审核通过  2：审核拒绝</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.status" placeholder="0：未审核  1：审核通过  2：审核拒绝"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">个推CID</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.getuiCid" placeholder="个推CID"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label"></div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.updatedAt" placeholder=""/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label"></div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.createdAt" placeholder=""/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label"></div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.createdBy" placeholder=""/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label"></div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="doorHelpOrder.lastModifiedBy" placeholder=""/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${request.contextPath}/statics/js/modules/info/doorhelporder.js?_${.now?long}"></script>
+</body>
+</html>
